@@ -9,6 +9,9 @@ CREATE USER     jvnunes
 WITH            CREATEDB
 PASSWORD        'uvvbd';
 
+-- (\c) vai dar permissão ao usuário de acessar o Banco de Dados --
+\c uvv jvnunes;
+
 -- Criar um Banco de Dados --
 CREATE DATABASE uvv
 OWNER               jvnunes
@@ -18,9 +21,6 @@ LC_COLLATE          'pt_BR.UTF-8'
 LC_CTYPE            'pt_BR.UTF-8'
 ALLOW_CONNECTIONS   true
 ;
-
--- (\c) vai dar permissão ao usuário de acessar o Banco de Dados --
-\c uvv jvnunes;
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------ Criação das tabelas ----------------------------------------------------------------------------------
@@ -36,7 +36,7 @@ CREATE TABLE produtos (
     imagem_mine_type            VARCHAR(512),
     imagem_arquivo              VARCHAR(512),
     imagem_charset              VARCHAR(512),
-    imagem_ultima_atualizacao   DATE, 
+    imagem_ultima_atualizacao   DATE
 );
 
 -- Comentarios da tabela produtos -- 
@@ -57,7 +57,7 @@ CREATE TABLE lojas (
     logo_mine_type              VARCHAR(512),
     logo_arquivo                VARCHAR(512),
     logo_charset                VARCHAR(512),
-    logo_ultima_atualizacao     DATE,
+    logo_ultima_atualizacao     DATE
 );
 
 -- Comentarios da tabela lojas -- 
@@ -72,7 +72,7 @@ CREATE TABLE estoques (
     estoque_id      NUMERIC(38)     NOT NULL,
     loja_id         NUMERIC(38)     NOT NULL,
     produto_id      NUMERIC(38)     NOT NULL,
-    quantidade      NUMERIC(38)     NOT NULL, 
+    quantidade      NUMERIC(38)     NOT NULL
 );
 
 -- Comentarios da tabela estoques -- 
@@ -89,7 +89,7 @@ CREATE TABLE clientes (
     nome            VARCHAR(255)    NOT NULL,
     telefone1       VARCHAR(20),
     telefone2       VARCHAR(20),
-    telefone3       VARCHAR(20),
+    telefone3       VARCHAR(20)
 );
 
 -- Comentarios da tabela clientes -- 
@@ -107,7 +107,7 @@ CREATE TABLE envios (
     loja_id             NUMERIC(38)     NOT NULL,
     cliente_id          NUMERIC(38)     NOT NULL,
     endereco_entrega    VARCHAR(512)    NOT NULL,
-    status              VARCHAR(15)     NOT NULL,
+    status              VARCHAR(15)     NOT NULL
 );
 
 -- Comentarios da tabela envios -- 
@@ -124,7 +124,7 @@ CREATE TABLE pedidos (
     data_hora       TIMESTAMP       NOT NULL,
     cliente_id      NUMERIC(38)     NOT NULL,
     status          VARCHAR(15)     NOT NULL,
-    loja_id         NUMERIC(38)     NOT NULL,
+    loja_id         NUMERIC(38)     NOT NULL
 );
 
 -- Comentarios da tabela pedidos -- 
@@ -142,7 +142,7 @@ CREATE TABLE pedidos_itens (
     numero_da_linha     NUMERIC(38)     NOT NULL,
     preco_unitario      NUMERIC(10,2)   NOT NULL,
     quantidade          NUMERIC(38)     NOT NULL,
-    envio_id            NUMERIC(38),
+    envio_id            NUMERIC(38)
 );
 
 -- Comentarios da tabela pedidos_itens -- 
@@ -190,12 +190,12 @@ PRIMARY KEY (pedido_id);
 
 -- Pk da tabela pedidos_itens -- 
 ALTER TABLE pedidos_itens
-ADD CONSTRAINT pk_pedido_id,
+ADD CONSTRAINT pk2_pedido_id
 PRIMARY KEY (pedido_id);
 
 -- Pk da tabela pedidos_itens -- 
 ALTER TABLE pedidos_itens
-ADD CONSTRAINT pk_produto_id
+ADD CONSTRAINT pk2_produto_id
 PRIMARY KEY (produto_id);
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -205,12 +205,6 @@ PRIMARY KEY (produto_id);
 -- FK da tabela estoques --
 ALTER TABLE estoques
 ADD CONSTRAINT fk_produtos_estoques
-FOREIGN KEY (produto_id)
-REFERENCES produtos (produto_id);
-
--- FK da tabela pedidos_itens --
-ALTER TABLE pedidos_itens 
-ADD CONSTRAINT fk_produtos_pedidos_itens
 FOREIGN KEY (produto_id)
 REFERENCES produtos (produto_id);
 
@@ -250,6 +244,12 @@ ADD CONSTRAINT fk_envios_pedidos_itens
 FOREIGN KEY (envio_id)
 REFERENCES envios (envio_id);
 
+-- FK da tabela pedidos_itens --
+ALTER TABLE pedidos_itens 
+ADD CONSTRAINT fk_produtos_pedidos_itens
+FOREIGN KEY (produto_id)
+REFERENCES produtos (produto_id);
+
 -- Fk da tabela pedidos_itens --
 ALTER TABLE pedidos_itens 
 ADD CONSTRAINT fk_pedidos_pedidos_itens
@@ -260,18 +260,22 @@ REFERENCES pedidos (pedido_id);
 ------------------------------------------------------------------------ Criação de checagem ----------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+-- Checagem na tabela envios --
 ALTER TABLE envios
 ADD CONSTRAINT cc_envios_status
 CHECK (status IN ('CRIADO', 'ENVIADO', 'TRANSITO', 'ENTREGUE'));
 
+-- Checagem na tabela pedidos --
 ALTER TABLE pedidos
 ADD CONSTRAINT cc_pedidos_status
 CHECK (status IN ('CANCELADO', 'COMPLETO', 'ABERTO', 'PAGO', 'REEMBOLSADO', 'ENVIADO'));
 
+-- Checagem na tabela produtos --
 ALTER TABLE produtos
 ADD CONSTRAINT cc_produtos_preco_unitario
 CHECK (preco_unitario >= 0);
 
+-- Checagem na tabela pedidos_itens --
 ALTER TABLE pedidos_itens
 ADD CONSTRAINT cc_pedidos_itens_preco_unitario
 CHECK (preco_unitario >= 0);
@@ -280,10 +284,33 @@ ALTER TABLE pedidos_itens
 ADD CONSTRAINT cc_pedidos_itens_quantidade
 CHECK (quantidade >= 0);
 
+-- Checagem na tabela estoques --
 ALTER TABLE estoques
 ADD CONSTRAINT cc_estoques_quantidade
 CHECK (quantidade >= 0);
 
+-- Checagem na tabela lojas --
 ALTER TABLE lojas
 ADD CONSTRAINT cc_lojas_endereco_web_fisico
 CHECK (endereco_web IS NOT NULL OR endereco_fisico IS NOT NULL);
+
+ALTER TABLE lojas
+ADD CONSTRAINT cc_lojas_latitude
+CHECK (latitude BETWEEN 90 AND -90);
+
+ALTER TABLE lojas
+ADD CONSTRAINT cc_lojas_longitude
+CHECK (longitude BETWEEN 180 AND -180);
+
+-- Checagem na tabela clientes --
+ALTER TABLE clientes
+ADD CONSTRAINT cc_clientes_telefone1
+CHECK (telefone1 IN ( '(', ')', '-', '+', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+
+ALTER TABLE clientes
+ADD CONSTRAINT cc_clientes_telefone2
+CHECK (telefone2 IN ( '(', ')', '-', '+', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+
+ALTER TABLE clientes
+ADD CONSTRAINT cc_clientes_telefone3
+CHECK (telefone3 IN ( '(', ')', '-', '+', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
