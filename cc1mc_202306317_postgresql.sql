@@ -9,9 +9,6 @@ CREATE USER     jvnunes
 WITH            CREATEDB
 PASSWORD        'uvvbd';
 
--- Usar o usuário -- 
-USE jvnunes
-
 -- Criar um Banco de Dados --
 CREATE DATABASE uvv
 OWNER               jvnunes
@@ -21,6 +18,12 @@ LC_COLLATE          'pt_BR.UTF-8'
 LC_CTYPE            'pt_BR.UTF-8'
 ALLOW_CONNECTIONS   true
 ;
+
+-- (\c) vai dar permissão ao usuário de acessar o Banco de Dados --
+\c uvv jvnunes;
+
+-- Criação do schema do Banco de Dados --
+CREATE SCHEMA lojauvv
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------ Criação das tabelas ----------------------------------------------------------------------------------
@@ -36,7 +39,7 @@ CREATE TABLE produtos (
     imagem_mine_type            VARCHAR(512),
     imagem_arquivo              VARCHAR(512),
     imagem_charset              VARCHAR(512),
-    imagem_ultima_atualizacao   DATE,
+    imagem_ultima_atualizacao   DATE, 
 );
 
 -- Comentarios da tabela produtos -- 
@@ -72,7 +75,7 @@ CREATE TABLE estoques (
     estoque_id      NUMERIC(38)     NOT NULL,
     loja_id         NUMERIC(38)     NOT NULL,
     produto_id      NUMERIC(38)     NOT NULL,
-    quantidade      NUMERIC(38)     NOT NULL,
+    quantidade      NUMERIC(38)     NOT NULL, 
 );
 
 -- Comentarios da tabela estoques -- 
