@@ -9,7 +9,7 @@ CREATE USER     jvnunes
 WITH            CREATEDB
 PASSWORD        'uvvbd';
 
--- (\c) vai dar permissão ao usuário de acessar o Banco de Dados --
+-- (\c) vai conectar o usuário ao Banco de dados --
 \c uvv jvnunes;
 
 -- Criar um Banco de Dados --
