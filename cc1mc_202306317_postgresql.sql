@@ -194,8 +194,7 @@ PRIMARY KEY (pedido_id);
 ALTER TABLE pedidos_itens
 ADD CONSTRAINT pk2_pedido_id
 PRIMARY KEY (pedido_id);
-
--- Pk da tabela pedidos_itens -- 
+ 
 ALTER TABLE pedidos_itens
 ADD CONSTRAINT pk2_produto_id
 PRIMARY KEY (produto_id);
@@ -210,19 +209,6 @@ ADD CONSTRAINT fk_produtos_estoques
 FOREIGN KEY (produto_id)
 REFERENCES produtos (produto_id);
 
--- FK da tabela pedidos --
-ALTER TABLE pedidos 
-ADD CONSTRAINT fk_lojas_pedidos
-FOREIGN KEY (loja_id)
-REFERENCES lojas (loja_id);
-
--- FK da tabela envios --
-ALTER TABLE envios 
-ADD CONSTRAINT fk_lojas_envios
-FOREIGN KEY (loja_id)
-REFERENCES lojas (loja_id);
-
--- FK da tabela estoques --
 ALTER TABLE estoques
 ADD CONSTRAINT fk_lojas_estoques
 FOREIGN KEY (loja_id)
@@ -230,11 +216,21 @@ REFERENCES lojas (loja_id);
 
 -- FK da tabela pedidos --
 ALTER TABLE pedidos 
+ADD CONSTRAINT fk_lojas_pedidos
+FOREIGN KEY (loja_id)
+REFERENCES lojas (loja_id);
+
+ALTER TABLE pedidos 
 ADD CONSTRAINT fk_clientes_pedidos
 FOREIGN KEY (cliente_id)
 REFERENCES clientes (cliente_id);
 
 -- FK da tabela envios --
+ALTER TABLE envios 
+ADD CONSTRAINT fk_lojas_envios
+FOREIGN KEY (loja_id)
+REFERENCES lojas (loja_id);
+
 ALTER TABLE envios 
 ADD CONSTRAINT fk_clientes_envios
 FOREIGN KEY (cliente_id)
@@ -246,13 +242,11 @@ ADD CONSTRAINT fk_envios_pedidos_itens
 FOREIGN KEY (envio_id)
 REFERENCES envios (envio_id);
 
--- FK da tabela pedidos_itens --
 ALTER TABLE pedidos_itens 
 ADD CONSTRAINT fk_produtos_pedidos_itens
 FOREIGN KEY (produto_id)
 REFERENCES produtos (produto_id);
 
--- Fk da tabela pedidos_itens --
 ALTER TABLE pedidos_itens 
 ADD CONSTRAINT fk_pedidos_pedidos_itens
 FOREIGN KEY (pedido_id)
