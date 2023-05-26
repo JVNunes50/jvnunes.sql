@@ -1,6 +1,10 @@
 -- Deletar um Banco de Dados existente com o mesmo nome -- 
 DROP DATABASE uvv;
 
+-- Trocar o dono do Banco de Dados --
+REASSIGN OWNED BY jvnunes TO postgres;
+DROP OWNED BY jvnunes;
+
 -- Deletar nome de usuário caso exista --
 DROP USER IF EXISTS jvnunes;
 
@@ -21,9 +25,6 @@ ALLOW_CONNECTIONS   true
 
 -- (\c) vai conectar o usuário ao Banco de dados --
 \c uvv jvnunes;
-
--- Deletar o SCHEMA caso exista --
-DROP SCHEMA lojas CASCADE;
 
 -- Criando o SCHEMA do Banco de Dados --
 CREATE SCHEMA lojas;
@@ -300,20 +301,3 @@ CHECK (latitude BETWEEN 90 AND -90);
 ALTER TABLE lojas.lojas
 ADD CONSTRAINT cc_lojas_longitude
 CHECK (longitude BETWEEN 180 AND -180);*/
-
--- Checagem na tabela lojas.clientes --
-ALTER TABLE lojas.clientes
-ADD CONSTRAINT cc_clientes_telefone1
-CHECK (telefone1 IN ( '(', ')', '-', '+', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
-
-ALTER TABLE lojas.clientes
-ADD CONSTRAINT cc_clientes_telefone2
-CHECK (telefone2 IN ( '(', ')', '-', '+', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
-
-ALTER TABLE lojas.clientes
-ADD CONSTRAINT cc_clientes_telefone3
-CHECK (telefone3 IN ( '(', ')', '-', '+', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
-
-ALTER TABLE lojas.clientes
-ADD CONSTRAINT cc_clientes_nome
-CHECK (nome NOT LIKE '%[0-9]%');
