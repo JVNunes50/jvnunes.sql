@@ -310,3 +310,7 @@ CHECK (telefone2 IN ( '(', ')', '-', '+', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
 ALTER TABLE clientes
 ADD CONSTRAINT cc_clientes_telefone3
 CHECK (telefone3 IN ( '(', ')', '-', '+', 0, 1, 2, 3, 4, 5, 6, 7, 8, 9))
+
+ALTER TABLE clientes
+ADD CONSTRAINT cc_clientes_nome
+CHECK (nome NOT LIKE '%[0-9]%');
