@@ -29,6 +29,8 @@ ALLOW_CONNECTIONS   true
 -- Criando o SCHEMA do Banco de Dados --
 CREATE SCHEMA lojas;
 ALTER SCHEMA lojas OWNER TO jvnunes;
+ALTER USER jvnunes SET search_path TO lojas, '$user', public;
+SET search_path TO lojas, '$user', public;
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------ Criação das tabelas ----------------------------------------------------------------------------------
@@ -48,7 +50,7 @@ CREATE TABLE lojas.produtos (
 );
 
 -- Comentarios da tabela lojas.produtos -- 
-COMMENT ON TABLE lojas.produtos IS 'Essa é a criação da tabela lojas.produtos';
+COMMENT ON TABLE lojas.produtos IS 'Essa é a criação da tabela produtos';
 COMMENT ON COLUMN lojas.produtos.produto_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.produtos, sendo essa a PK';
 COMMENT ON COLUMN lojas.produtos.nome IS 'Essa é a criação da coluna que vai mostrar os nomes dos lojas.produtos, não podendo estar vazia';
 COMMENT ON COLUMN lojas.produtos.preco_unitario IS 'Essa é a criação da coluna que vai mostrar os preços dos lojas.produtos';
@@ -70,7 +72,7 @@ CREATE TABLE lojas.lojas (
 
 -- Comentarios da tabela lojas.lojas -- 
 COMMENT ON TABLE lojas.lojas IS 'Essa é a criação da tabela loja';
-COMMENT ON COLUMN lojas.lojas.loja_id IS 'id das lojas.lojas';
+COMMENT ON COLUMN lojas.lojas.loja_id IS 'id das lojas';
 COMMENT ON COLUMN lojas.lojas.nome IS 'Essa é a criação da coluna que vai mostrar os nomes das lojas.lojas, não podendo estar vazia';
 COMMENT ON COLUMN lojas.lojas.endereco_web IS 'Essa é a criação da coluna que vai mostrar o endereço web';
 COMMENT ON COLUMN lojas.lojas.endereco_fisico IS 'Essa é a criação da coluna que vai mostrar os endereços da lojas.lojas fisicas';
@@ -103,7 +105,7 @@ CREATE TABLE lojas.clientes (
 );
 
 -- Comentarios da tabela lojas.clientes -- 
-COMMENT ON TABLE lojas.clientes IS 'Essa é a criação da tabela lojas.clientes';
+COMMENT ON TABLE lojas.clientes IS 'Essa é a criação da tabela clientes';
 COMMENT ON COLUMN lojas.clientes.cliente_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.clientes, sendo essa a PK';
 COMMENT ON COLUMN lojas.clientes.email IS 'Essa é a criação da coluna que vai mostrar os email dos lojas.clientes, não podendo estar vazia';
 COMMENT ON COLUMN lojas.clientes.nome IS 'Essa é a criação da coluna que vai mostrar os nomes dos lojas.clientes, não podendo estar vazia';
@@ -121,7 +123,7 @@ CREATE TABLE lojas.envios (
 );
 
 -- Comentarios da tabela lojas.envios -- 
-COMMENT ON TABLE lojas.envios IS 'Essa é a criação da tabela lojas.envios';
+COMMENT ON TABLE lojas.envios IS 'Essa é a criação da tabela envios';
 COMMENT ON COLUMN lojas.envios.envio_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.envios, sendo essa a PK';
 COMMENT ON COLUMN lojas.envios.loja_id IS 'Essa é a criação da coluna que vai mostrar o id das lojas.lojas,sendo a FK e não podendo estar vazio';
 COMMENT ON COLUMN lojas.envios.cliente_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.clientes,sendo a FK e não podendo estar vazio';
@@ -138,7 +140,7 @@ CREATE TABLE lojas.pedidos (
 );
 
 -- Comentarios da tabela lojas.pedidos -- 
-COMMENT ON TABLE lojas.pedidos IS 'Essa é a criação da tabela lojas.pedidos';
+COMMENT ON TABLE lojas.pedidos IS 'Essa é a criação da tabela pedidos';
 COMMENT ON COLUMN lojas.pedidos.pedido_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.produtos, sendo essa a PK';
 COMMENT ON COLUMN lojas.pedidos.data_hora IS 'Essa é a criação da coluna que vai mostrar a data e hora dos lojas.pedidos, não podendo estar vazia';
 COMMENT ON COLUMN lojas.pedidos.cliente_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.clientes,sendo a FK e não podendo estar vazio';
@@ -156,7 +158,7 @@ CREATE TABLE lojas.pedidos_itens (
 );
 
 -- Comentarios da tabela lojas.pedidos_itens -- 
-COMMENT ON TABLE lojas.pedidos_itens IS 'Essa é a criação da tabela lojas.pedidos_itens';
+COMMENT ON TABLE lojas.pedidos_itens IS 'Essa é a criação da tabela pedidos_itens';
 COMMENT ON COLUMN lojas.pedidos_itens.pedido_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.pedidos, sendo essa a PK e FK ao mesmo tempo';
 COMMENT ON COLUMN lojas.pedidos_itens.produto_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.produtos, sendo essa a PK e FK ao mesmo tempo';
 COMMENT ON COLUMN lojas.pedidos_itens.numero_da_linha IS 'Essa é a criação da coluna que vai mostrar o numero da linha, não podendo estar vazia';
@@ -293,11 +295,3 @@ CHECK (quantidade >= 0);
 ALTER TABLE lojas.lojas
 ADD CONSTRAINT cc_lojas_endereco_web_fisico
 CHECK (endereco_web IS NOT NULL OR endereco_fisico IS NOT NULL);
-
-/*ALTER TABLE lojas.lojas
-ADD CONSTRAINT cc_lojas_latitude
-CHECK (latitude BETWEEN 90 AND -90);
-
-ALTER TABLE lojas.lojas
-ADD CONSTRAINT cc_lojas_longitude
-CHECK (longitude BETWEEN 180 AND -180);*/
