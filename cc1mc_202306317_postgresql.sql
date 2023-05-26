@@ -20,7 +20,7 @@ ALLOW_CONNECTIONS   true
 ;
 
 -- Criando o SCHEMA do Banco de Dados --
-CREATE SCHEMA lojas.lojas;
+CREATE SCHEMA lojas;
 
 -- (\c) vai conectar o usuário ao Banco de dados --
 \c uvv jvnunes;
