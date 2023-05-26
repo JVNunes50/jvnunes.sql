@@ -29,8 +29,8 @@ CREATE SCHEMA lojas.lojas;
 ------------------------------------------------------------------------ Criação das tabelas ----------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
--- Criação da tabelas lojas.lojas.produtos --
-CREATE TABLE lojas.lojas.produtos (
+-- Criação da tabelas lojas.produtos --
+CREATE TABLE lojas.produtos (
     produto_id                  NUMERIC(38)     NOT NULL,
     nome                        VARCHAR(255)    NOT NULL,
     preco_unitario              NUMERIC(10,2),
@@ -42,11 +42,11 @@ CREATE TABLE lojas.lojas.produtos (
     imagem_ultima_atualizacao   DATE
 );
 
--- Comentarios da tabela lojas.lojas.produtos -- 
-COMMENT ON TABLE lojas.lojas.produtos IS 'Essa é a criação da tabela lojas.lojas.produtos';
-COMMENT ON COLUMN lojas.lojas.produtos.produto_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.lojas.produtos, sendo essa a PK';
-COMMENT ON COLUMN lojas.lojas.produtos.nome IS 'Essa é a criação da coluna que vai mostrar os nomes dos lojas.lojas.produtos, não podendo estar vazia';
-COMMENT ON COLUMN lojas.lojas.produtos.preco_unitario IS 'Essa é a criação da coluna que vai mostrar os preços dos lojas.lojas.produtos';
+-- Comentarios da tabela lojas.produtos -- 
+COMMENT ON TABLE lojas.produtos IS 'Essa é a criação da tabela lojas.produtos';
+COMMENT ON COLUMN lojas.produtos.produto_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.produtos, sendo essa a PK';
+COMMENT ON COLUMN lojas.produtos.nome IS 'Essa é a criação da coluna que vai mostrar os nomes dos lojas.produtos, não podendo estar vazia';
+COMMENT ON COLUMN lojas.produtos.preco_unitario IS 'Essa é a criação da coluna que vai mostrar os preços dos lojas.produtos';
 
 -- Criação da tabelas lojas.lojas --
 CREATE TABLE lojas.lojas (
@@ -84,8 +84,8 @@ CREATE TABLE lojas.estoques (
 COMMENT ON TABLE lojas.estoques IS 'Essa é a criação da tabela estoque';
 COMMENT ON COLUMN lojas.estoques.estoque_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.estoques, sendo essa a PK';
 COMMENT ON COLUMN lojas.estoques.loja_id IS 'Essa é a criação da coluna que vai mostrar o id das lojas.lojas,sendo a FK e não podendo estar vazio';
-COMMENT ON COLUMN lojas.estoques.produto_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.lojas.produtos, sendo essa a FK e não podendo estar vazia';
-COMMENT ON COLUMN lojas.estoques.quantidade IS 'Essa é a criação da coluna que vai mostrar a quantidade de lojas.lojas.produtos no estoque, não podendo estar vazia';
+COMMENT ON COLUMN lojas.estoques.produto_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.produtos, sendo essa a FK e não podendo estar vazia';
+COMMENT ON COLUMN lojas.estoques.quantidade IS 'Essa é a criação da coluna que vai mostrar a quantidade de lojas.produtos no estoque, não podendo estar vazia';
 
 -- Criação da tabelas lojas.clientes --
 CREATE TABLE lojas.clientes (
@@ -134,7 +134,7 @@ CREATE TABLE lojas.pedidos (
 
 -- Comentarios da tabela lojas.pedidos -- 
 COMMENT ON TABLE lojas.pedidos IS 'Essa é a criação da tabela lojas.pedidos';
-COMMENT ON COLUMN lojas.pedidos.pedido_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.lojas.produtos, sendo essa a PK';
+COMMENT ON COLUMN lojas.pedidos.pedido_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.produtos, sendo essa a PK';
 COMMENT ON COLUMN lojas.pedidos.data_hora IS 'Essa é a criação da coluna que vai mostrar a data e hora dos lojas.pedidos, não podendo estar vazia';
 COMMENT ON COLUMN lojas.pedidos.cliente_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.clientes,sendo a FK e não podendo estar vazio';
 COMMENT ON COLUMN lojas.pedidos.status IS 'Essa é a criação da coluna que vai mostrar o status dos lojas.pedidos, não podendo estar vazia';
@@ -153,7 +153,7 @@ CREATE TABLE lojas.pedidos_itens (
 -- Comentarios da tabela lojas.pedidos_itens -- 
 COMMENT ON TABLE lojas.pedidos_itens IS 'Essa é a criação da tabela lojas.pedidos_itens';
 COMMENT ON COLUMN lojas.pedidos_itens.pedido_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.pedidos, sendo essa a PK e FK ao mesmo tempo';
-COMMENT ON COLUMN lojas.pedidos_itens.produto_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.lojas.produtos, sendo essa a PK e FK ao mesmo tempo';
+COMMENT ON COLUMN lojas.pedidos_itens.produto_id IS 'Essa é a criação da coluna que vai mostrar o id dos lojas.produtos, sendo essa a PK e FK ao mesmo tempo';
 COMMENT ON COLUMN lojas.pedidos_itens.numero_da_linha IS 'Essa é a criação da coluna que vai mostrar o numero da linha, não podendo estar vazia';
 COMMENT ON COLUMN lojas.pedidos_itens.preco_unitario IS 'Essa é a criação da coluna que vai mostrar os preços dos lojas.pedidos, não podendo estar vazia';
 COMMENT ON COLUMN lojas.pedidos_itens.quantidade IS 'Essa é a criação da coluna que vai mostrar a quantidade de lojas.pedidos, não podendo estar vazia';
@@ -163,8 +163,8 @@ COMMENT ON COLUMN lojas.pedidos_itens.envio_id IS 'Essa é a criação da coluna
 ------------------------------------------------------------------------ Criação da PK ----------------------------------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
--- PK da tabela lojas.lojas.produtos --
-ALTER TABLE lojas.lojas.produtos
+-- PK da tabela lojas.produtos --
+ALTER TABLE lojas.produtos
 ADD CONSTRAINT pk_produto_id
 PRIMARY KEY (produto_id);
 
@@ -206,7 +206,7 @@ PRIMARY KEY (pedido_id , produto_id);
 ALTER TABLE lojas.estoques
 ADD CONSTRAINT fk_produtos_estoques
 FOREIGN KEY (produto_id)
-REFERENCES lojas.lojas.produtos (produto_id);
+REFERENCES lojas.produtos (produto_id);
 
 ALTER TABLE lojas.estoques
 ADD CONSTRAINT fk_lojas_estoques
@@ -244,7 +244,7 @@ REFERENCES lojas.envios (envio_id);
 ALTER TABLE lojas.pedidos_itens 
 ADD CONSTRAINT fk_produtos_pedidos_itens
 FOREIGN KEY (produto_id)
-REFERENCES lojas.lojas.produtos (produto_id);
+REFERENCES lojas.produtos (produto_id);
 
 ALTER TABLE lojas.pedidos_itens 
 ADD CONSTRAINT fk_pedidos_pedidos_itens
@@ -265,8 +265,8 @@ ALTER TABLE lojas.pedidos
 ADD CONSTRAINT cc_pedidos_status
 CHECK (status IN ('CANCELADO', 'COMPLETO', 'ABERTO', 'PAGO', 'REEMBOLSADO', 'ENVIADO'));
 
--- Checagem na tabela lojas.lojas.produtos --
-ALTER TABLE lojas.lojas.produtos
+-- Checagem na tabela lojas.produtos --
+ALTER TABLE lojas.produtos
 ADD CONSTRAINT cc_produtos_preco_unitario
 CHECK (preco_unitario >= 0);
 
