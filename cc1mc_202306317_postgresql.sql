@@ -76,8 +76,8 @@ COMMENT ON COLUMN lojas.lojas.loja_id IS 'id das lojas';
 COMMENT ON COLUMN lojas.lojas.nome IS 'Essa é a criação da coluna que vai mostrar os nomes das lojas.lojas, não podendo estar vazia';
 COMMENT ON COLUMN lojas.lojas.endereco_web IS 'Essa é a criação da coluna que vai mostrar o endereço web';
 COMMENT ON COLUMN lojas.lojas.endereco_fisico IS 'Essa é a criação da coluna que vai mostrar os endereços da lojas.lojas fisicas';
-COMMENT ON COLUMN lojas.lojas.latitude IS 'Essa é a criação da coluna que vai mostrar os locais das lojas.lojas em latitude, sendo de 0 a -90 Sul e 0 e 90 Norte';
-COMMENT ON COLUMN lojas.lojas.longitude IS 'Essa é a criação da coluna que vai mostrar os locais das lojas.lojas em longitude, sendo de 0 a -180 oeste e 0 e 180 leste';
+COMMENT ON COLUMN lojas.lojas.latitude IS 'Essa é a criação da coluna que vai mostrar os locais das lojas.lojas em latitude, sendo de 0 a 90 de Norte a Sul';
+COMMENT ON COLUMN lojas.lojas.longitude IS 'Essa é a criação da coluna que vai mostrar os locais das lojas.lojas em longitude, sendo de 0 a 180 de Oeste a Leste';
 
 -- Criação da tabelas estoques --
 CREATE TABLE lojas.estoques (
