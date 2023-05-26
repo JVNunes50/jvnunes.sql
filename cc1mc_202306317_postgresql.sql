@@ -24,7 +24,7 @@ ALLOW_CONNECTIONS   true
 ;
 
 -- (\c) vai conectar o usuário ao Banco de dados --
-\c uvv jvnunes;
+\c 'dbname=uvv user=jvnunes password=uvvbd'
 
 -- Criando o SCHEMA do Banco de Dados --
 CREATE SCHEMA lojas;
