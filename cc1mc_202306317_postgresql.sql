@@ -9,9 +9,6 @@ CREATE USER     jvnunes
 WITH            CREATEDB
 PASSWORD        'uvvbd';
 
--- (\c) vai conectar o usuário ao Banco de dados --
-\c uvv jvnunes;
-
 -- Criar um Banco de Dados --
 CREATE DATABASE uvv
 OWNER               jvnunes
@@ -21,6 +18,9 @@ LC_COLLATE          'pt_BR.UTF-8'
 LC_CTYPE            'pt_BR.UTF-8'
 ALLOW_CONNECTIONS   true
 ;
+
+-- (\c) vai conectar o usuário ao Banco de dados --
+\c uvv jvnunes;
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------ Criação das tabelas ----------------------------------------------------------------------------------
@@ -192,12 +192,8 @@ PRIMARY KEY (pedido_id);
 
 -- Pk da tabela pedidos_itens -- 
 ALTER TABLE pedidos_itens
-ADD CONSTRAINT pk2_pedido_id
-PRIMARY KEY (pedido_id);
- 
-ALTER TABLE pedidos_itens
-ADD CONSTRAINT pk2_produto_id
-PRIMARY KEY (produto_id);
+ADD CONSTRAINT pk_pedido_produto_id
+PRIMARY KEY (pedido_id , produto_id);
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------ Criação da FK ----------------------------------------------------------------------------------------
