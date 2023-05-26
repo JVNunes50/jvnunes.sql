@@ -19,11 +19,15 @@ LC_CTYPE            'pt_BR.UTF-8'
 ALLOW_CONNECTIONS   true
 ;
 
--- Criando o SCHEMA do Banco de Dados --
-CREATE SCHEMA lojas;
-
 -- (\c) vai conectar o usuário ao Banco de dados --
 \c uvv jvnunes;
+
+-- Deletar o SCHEMA caso exista --
+DROP SCHEMA lojas CASCADE;
+
+-- Criando o SCHEMA do Banco de Dados --
+CREATE SCHEMA lojas;
+ALTER SCHEMA lojas OWNER TO jvnunes;
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------ Criação das tabelas ----------------------------------------------------------------------------------
