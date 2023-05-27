@@ -30,7 +30,6 @@ ALLOW_CONNECTIONS   true
 CREATE SCHEMA lojas;
 ALTER SCHEMA lojas OWNER TO jvnunes;
 ALTER USER jvnunes SET search_path TO lojas, '$user', public;
-SET search_path TO lojas, '$user', public;
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------ Criação das tabelas ----------------------------------------------------------------------------------
